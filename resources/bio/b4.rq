@@ -1,0 +1,11 @@
+# from MGI to HGCN: low selectivity from MGI and high from HGNC
+
+select * where {
+	service<http://localhost:3030/mgi/sparql> {
+	?o <http://bio2rdf.org/mgi_vocabulary:xHGNC> ?join .	
+	#?s <http://bio2rdf.org/mgi_vocabulary:chromosomePosition> ?o filter(?o < str(80)) # not sure if we can play with these filters
+	}
+	service<http://localhost:3130/hgnc/sparql> {
+		?join <http://bio2rdf.org/hgnc_vocabulary:status>	"Approved" .
+	}
+}

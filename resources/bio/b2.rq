@@ -1,0 +1,13 @@
+# from MGI to HGCN: low selectivity from MGI and low selectivity from HGCN
+
+select * where {
+  service<http://localhost:3030/mgi/sparql> {
+  #?o <http://bio2rdf.org/mgi_vocabulary:chromosomePosition> ?o .
+  ?o <http://bio2rdf.org/mgi_vocabulary:xHGNC> ?join .
+  ?o <http://bio2rdf.org/mgi_vocabulary:xSymbol> ?symbol #<http://bio2rdf.org/symbol:Rasl12>
+#  ?o <http://bio2rdf.org/mgi_vocabulary:subType> "Gene" 
+}
+  service<http://localhost:3130/hgnc/sparql> {
+    ?join <http://bio2rdf.org/hgnc_vocabulary:status>	"Approved" .
+  }
+}

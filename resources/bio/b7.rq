@@ -1,0 +1,16 @@
+# Not SB from MGI to not SB in HGNC (?geneid and ?res1)
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+select * where {
+  SERVICE<http://localhost:3030/mgi/sparql> {
+    ?s rdf:type ?type .
+    OPTIONAL {  ?s <http://bio2rdf.org/mgi_vocabulary:xHGNC> ?res1 . }
+    OPTIONAL { ?s <http://bio2rdf.org/mgi_vocabulary:xGeneID> ?geneid }
+  }
+  SERVICE <http://localhost:3130/hgnc/sparql>{
+      ?res1 <http://bio2rdf.org/hgnc_vocabulary:status> "Approved".
+      ?res1 <http://bio2rdf.org/hgnc_vocabulary:date_modified> ?date2 .
+      ?res1 <http://bio2rdf.org/hgnc_vocabulary:x-mgi> ?mgi2
+      #OPTIONAL { ?res1 <http://bio2rdf.org/hgnc_vocabulary:x-geneid> ?geneid . }
+      OPTIONAL { ?res1 <http://bio2rdf.org/hgnc_vocabulary:x-pubmed> ?pubmed . }
+  }
+}

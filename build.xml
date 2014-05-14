@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+
+<project name="SPARQLBench" default="dist">
+  
+	<target name="prepare">
+    <tstamp />
+    <mkdir dir="build"/>
+    <mkdir dir="dist"/>
+  </target>
+
+  <target name="clean">
+    <delete dir="bin"/>
+    <delete>
+      <fileset dir="dist">
+	<include name="*"/>
+      </fileset>
+    </delete>
+  </target>
+  
+  <path id="classpath">
+    <pathelement location="build"/>
+    <fileset dir="lib">
+      <include name="*.jar"/>
+     </fileset>
+  </path>
+  
+  <target name="dist" depends="prepare">
+    <javac destdir="build"
+	   srcdir="src"
+	   debug="yes">
+      <classpath refid="classpath"/>
+    </javac>
+  	<copy todir="build">
+  		<fileset dir="src" excludes="**/*.java"/>
+  	</copy>
+  	
+ 	<jar destfile="dist/benchmark.jar">
+ 		<zipfileset dir="build" prefix="" />
+ 		<zipfileset src="lib/commons-cli-1.2.jar"/>
+ 		<zipfileset src="lib/jena-arq-2.9.4.jar"/>
+ 		<zipfileset src="lib/jena-core-2.7.4.jar"/>
+ 		<zipfileset src="lib/slf4j-api-1.5.8.jar"/>
+ 		<zipfileset src="lib/slf4j-log4j12-1.5.8.jar"/>
+ 		<zipfileset src="lib/log4j-1.2.14.jar"/>
+ 		<zipfileset src="lib/xercesImpl-2.7.1.jar"/>
+ 		<zipfileset src="lib/jena-iri-0.9.4.jar"/>
+
+ 		<manifest>
+			<attribute name="Main-Class" value="cli.Main" />
+      	</manifest>
+    </jar> 
+    </target>
+    
+
+</project>

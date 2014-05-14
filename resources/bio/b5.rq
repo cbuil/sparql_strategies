@@ -1,0 +1,14 @@
+# Two variable join from MGI and HGNC
+select * where {
+	service<http://localhost:3030/mgi/sparql> {
+  		# from MGI to HGCN: low selectivity from MGI 
+  		?mgi <http://bio2rdf.org/mgi_vocabulary:chromosomePosition> ?o . 
+  		#?mgi <http://bio2rdf.org/mgi_vocabulary:xGeneID> ?join2  .
+      ?mgi <http://bio2rdf.org/mgi_vocabulary:xHGNC> ?join1 .  
+	}
+  # low selectivity from HGCN
+  service<http://localhost:3130/hgnc/sparql> {
+    ?join1 <http://bio2rdf.org/hgnc_vocabulary:status>	"Approved" . 
+    ?join1 <http://bio2rdf.org/hgnc_vocabulary:x-geneid> ?join2 
+    }
+}
