@@ -9,6 +9,7 @@ select * where {
   service<http://localhost:3130/hgnc/sparql> {
     ?join <http://bio2rdf.org/hgnc_vocabulary:status>	"Approved" .
     ?join <http://bio2rdf.org/hgnc_vocabulary:x-pubmed> ?pubmed .
-    ?join <http://bio2rdf.org/hgnc_vocabulary:x-geneid> ?geneid
+    ?join <http://bio2rdf.org/hgnc_vocabulary:x-geneid> ?geneid .
+    ?join <http://bio2rdf.org/hgnc_vocabulary:approved_symbol> ?symbol
   }
 }
