@@ -1,14 +1,29 @@
-# Two variable join from MGI and HGNC
-select * where {
-	service<http://localhost:3030/mgi/sparql> {
-  		# from MGI to HGCN: low selectivity from MGI 
-  		?mgi <http://bio2rdf.org/mgi_vocabulary:chromosomePosition> ?o . 
-  		#?mgi <http://bio2rdf.org/mgi_vocabulary:xGeneID> ?join2  .
-      ?mgi <http://bio2rdf.org/mgi_vocabulary:xHGNC> ?join1 .  
-	}
-  # low selectivity from HGCN
-  service<http://localhost:3130/hgnc/sparql> {
-    ?join1 <http://bio2rdf.org/hgnc_vocabulary:status>	"Approved" . 
-    ?join1 <http://bio2rdf.org/hgnc_vocabulary:x-geneid> ?join2 
+# SB from MGI to not SB in HGNC (?mgi)
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT * WHERE {
+  SERVICE<http://localhost:3030/mgi/sparql> {
+    # 16753 results
+    ?mgi rdf:type ?type .
+    ?mgi <http://bio2rdf.org/mgi_vocabulary:chromosomePosition> ?o .
+    ?mgi <http://bio2rdf.org/mgi_vocabulary:xHGNC> ?link_hgnc .
+    FILTER(?o < str(80)) 
+  }
+  SERVICE <http://localhost:3130/hgnc/sparql> {
+    {
+      # 273 results
+      ?res1 <http://bio2rdf.org/hgnc_vocabulary:status> "Symbol Withdrawn".
+      ?res1 <http://bio2rdf.org/hgnc_vocabulary:date_modified> ?date1 . 
+      FILTER(?date1 < "1995-01-01"^^xsd:date)
     }
+    UNION 
+    {
+      # 8498 results
+      ?link_hgnc <http://bio2rdf.org/hgnc_vocabulary:status> "Approved".
+      ?link_hgnc <http://bio2rdf.org/hgnc_vocabulary:date_modified> ?date2 .
+      FILTER(?date2 > "2012-01-01"^^xsd:date) 
+    }
+  }
 }
+

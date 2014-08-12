@@ -1,7 +1,0 @@
-PREFIX : <http://example.org/> 
-PREFIX foaf:       <http://xmlns.com/foaf/0.1/>
-SELECT * WHERE {
-SERVICE <http://localhost:3031/data2/sparql> { {{?Y ?Z ?T} UNION {?X ?Y :b} } FILTER (?X = ?Y) } 
- 
- SERVICE <http://localhost:3031/data1/sparql> { ?X foaf:knows ?Q . } 
-}

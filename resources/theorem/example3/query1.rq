@@ -1,0 +1,10 @@
+PREFIX : <http://example.org/> 
+PREFIX foaf:       <http://xmlns.com/foaf/0.1/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+
+SELECT ?person ?person2 WHERE {
+
+ SERVICE <http://localhost:3030/theo31/sparql> { ?X :b :c } 
+ SERVICE <http://localhost:3030/theo32/sparql> { {?Y :d :e} UNION {?X :d :e} } 
+
+}

@@ -1,11 +1,17 @@
-# from MGI to HGCN: low selectivity from MGI and high from HGNC
+# SB from MGI to not SB in HGNC (?geneid)
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-select * where {
-	service<http://localhost:3030/mgi/sparql> {
-	?o <http://bio2rdf.org/mgi_vocabulary:xHGNC> ?join .	
-	#?s <http://bio2rdf.org/mgi_vocabulary:chromosomePosition> ?o filter(?o < str(80)) # not sure if we can play with these filters
-	}
-	service<http://localhost:3130/hgnc/sparql> {
-		?join <http://bio2rdf.org/hgnc_vocabulary:status>	"Approved" .
-	}
+SELECT * WHERE {
+  SERVICE<http://localhost:3030/mgi/sparql> {
+    # 250923 results
+    ?s rdf:type ?type .
+    OPTIONAL { ?s <http://bio2rdf.org/mgi_vocabulary:xHGNC> ?res1 }
+  }
+  SERVICE <http://localhost:3130/hgnc/sparql>{
+    # 23 results
+    ?res1 <http://bio2rdf.org/hgnc_vocabulary:status> "Approved".
+    ?res1 <http://bio2rdf.org/hgnc_vocabulary:date_modified> ?date .
+    FILTER(?date < "1995-01-01"^^xsd:date)
+  }
 }

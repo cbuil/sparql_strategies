@@ -1,7 +1,4 @@
 @prefix foaf:       <http://xmlns.com/foaf/0.1/> .
 @prefix :     <http://example.org/> .
 
-:a :a :b .
-:e :c :d .
-:a :c :a .
-:b :c :a .
+:a :d :e
